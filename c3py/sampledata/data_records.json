@@ -1,0 +1,5 @@
+[
+  {"station": 123, "discharge": 3.4, "level": 1.2},
+  {"station": 124, "discharge": 1.4, "level": 0.2},
+  {"station": 125, "discharge": 3.2, "level": 1.8}
+]

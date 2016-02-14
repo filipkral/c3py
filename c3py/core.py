@@ -116,5 +116,5 @@ if __name__ == "__main__":
 
     data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'sampledata', 'data_records.json')
     outfile= r'C:\temp\c3py\out2.html'
-    scatterplot(data, 'property_value_in', 'property_value_out', outfile)
+    scatterplot(data, 'discharge', 'level', outfile)
 
