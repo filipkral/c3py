@@ -8,11 +8,17 @@
 
 {{c3css}}
 
+<style>
+body{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</style>
+
 </head>
 <body class='antialiased'>
 
 <div class='container'>
-<h1>C3 Chart</h1>
+<h1>{{title}}</h1>
 <div class='chart'>
 <div id='chart'></div>
 </div>
@@ -79,9 +85,10 @@ $(document).ready(function(){
     
     var chart = c3.generate({
     data: {
-        xs: { property_value_out: 'property_value_in'},
-        url: 'sampledata/data_records.json', mimeType: 'json',
-        keys: { value: ['property_value_in', 'property_value_out'] },
+        xs: { {{ykey}}: '{{xkey}}'},
+        //url: 'sampledata/data_records.json', mimeType: 'json',
+        json: {{data}},
+        keys: { value: ['{{ykey}}', '{{xkey}}'] },
         type: 'scatter',
         selection: {
             enabled: true //, multiple: true, draggable: true
@@ -91,13 +98,13 @@ $(document).ready(function(){
     },
     axis: {
         x: {
-            label: 'In',
+            label: '{{xlab}}',
             tick: {
                 fit: false
             }
         },
         y: {
-            label: 'Out'
+            label: '{{ylab}}'
         }
     }
     ,tooltip: {
