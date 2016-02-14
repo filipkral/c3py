@@ -36,15 +36,50 @@ $(document).ready(function(){
         $('#selected').empty();
     };
     
+    var unselectPoint = function(id, index){
+        chart.unselect(id, [index]);
+    };
+    var highlightPoint = function(id, index){
+        console.log("TODO");
+    };
+    
+    var updateAxesIgnoringPoint = function(id, index){
+        console.log("TODO");
+        //chart.data.values(id);
+    };
+    
+    var selectionOptionUnselectClicked = function(event){
+        var tgtli = $(event.target).parent('li');
+        unselectPoint(tgtli.data('c3py-id'), parseInt(tgtli.data('c3py-index'), 10));
+    };
+    
+    var selectionOptionIgnoreClicked = function(event){
+        console.log("TODO");
+    };
+    
     var onSelected = function(event){
         //$('#selected').append('<li>{{item}}</li>'.replace('{{item}}', JSON.stringify(event)));
         var selectionList = $('#selected').empty();
-        chart.selected().map(function(d){ selectionList.append(JSON.stringify(d)); });
+        chart.selected(event.id).map(function(d){ 
+            var selectedItem = $('<li>'+
+                //'<button class="btnhightlight" title="Highlight">&#9728;</button>'+
+                '<button class="btnunselect" title="Unselect">&#9898;</button>'+
+                //'<button class="btnignore" title="Set axes range ignoring this point">&#9746;</button>'+
+                '<span>{{item}}</span></li>'
+                .replace('{{item}}', JSON.stringify(d)))
+                .data('c3py-id', d.id)
+                .data('c3py-index', d.index);
+            console.log(event, event.id, d);
+            selectionList.append(selectedItem);
+            }
+        );
+        selectionList.on("click", "li > button.btnunselect", selectionOptionUnselectClicked);
+        selectionList.on("click", "li > button.btnignore", selectionOptionIgnoreClicked);
     };
     
     var chart = c3.generate({
     data: {
-        xs: { property_value_out: 'property_value_in' },
+        xs: { property_value_out: 'property_value_in'},
         url: 'sampledata/data_records.json', mimeType: 'json',
         keys: { value: ['property_value_in', 'property_value_out'] },
         type: 'scatter',
