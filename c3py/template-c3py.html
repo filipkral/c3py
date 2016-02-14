@@ -36,6 +36,8 @@ body{
 
 <script>
 $(document).ready(function(){
+
+    var thedata = {{data}};
     
     var onClearSelectionClicked = function(){
         chart.unselect();
@@ -72,7 +74,8 @@ $(document).ready(function(){
                 '<button class="btnunselect" title="Unselect">&#9898;</button>'+
                 //'<button class="btnignore" title="Set axes range ignoring this point">&#9746;</button>'+
                 '<span>{{item}}</span></li>'
-                .replace('{{item}}', JSON.stringify(d)))
+                //.replace('{{item}}', JSON.stringify(d)))
+                .replace('{{item}}', JSON.stringify(thedata[d.index])))
                 .data('c3py-id', d.id)
                 .data('c3py-index', d.index);
             console.log(event, event.id, d);
@@ -87,7 +90,7 @@ $(document).ready(function(){
     data: {
         xs: { {{ykey}}: '{{xkey}}'},
         //url: 'sampledata/data_records.json', mimeType: 'json',
-        json: {{data}},
+        json: thedata,
         keys: { value: ['{{ykey}}', '{{xkey}}'] },
         type: 'scatter',
         selection: {
