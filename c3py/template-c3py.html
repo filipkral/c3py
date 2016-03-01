@@ -12,6 +12,15 @@
 body{
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+ul.c3py-list{
+  list-style-type: none;
+}
+
+ul.c3py-list li{
+  padding: 5px;
+  border-bottom: 1px solid silver;
+}
 </style>
 
 </head>
@@ -24,7 +33,7 @@ body{
 </div>
 
 <button id="clear">Clear selection</button>
-<ul id="selected"></ul>
+<ul id="selected" class="c3py-list"></ul>
 
 </div>
 
@@ -38,6 +47,7 @@ body{
 $(document).ready(function(){
 
     var thedata = {{data}};
+    window.thedata = thedata;
     
     var onClearSelectionClicked = function(){
         chart.unselect();
@@ -65,6 +75,16 @@ $(document).ready(function(){
         console.log("TODO");
     };
     
+    var objectToMarkup = function(v, prop) {
+        return " {{prop}}: <strong>{{v}}</strong>".replace("{{prop}}", prop).replace("{{v}}", v); 
+    };
+    
+    var getDataByXY = function(data, x, y){
+        var matching = data.filter(function(d, i){ console.log(d, x, y); return d['{{xkey}}'] === x && d['{{ykey}}'] === y; });
+        matching.push({});
+        return matching[0];
+    };
+    
     var onSelected = function(event){
         //$('#selected').append('<li>{{item}}</li>'.replace('{{item}}', JSON.stringify(event)));
         var selectionList = $('#selected').empty();
@@ -75,7 +95,9 @@ $(document).ready(function(){
                 //'<button class="btnignore" title="Set axes range ignoring this point">&#9746;</button>'+
                 '<span>{{item}}</span></li>'
                 //.replace('{{item}}', JSON.stringify(d)))
-                .replace('{{item}}', JSON.stringify(thedata[d.index])))
+                //.replace('{{item}}', JSON.stringify(thedata[d.index])))
+                .replace('{{item}}', $.map(thedata[d.index], objectToMarkup)))
+                //.replace('{{item}}', $.map(getDataByXY(thedata, d.value, d.x), objectToMarkup)))
                 .data('c3py-id', d.id)
                 .data('c3py-index', d.index);
             console.log(event, event.id, d);
@@ -112,13 +134,15 @@ $(document).ready(function(){
     }
     ,tooltip: {
         contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-            return '<div>' + d[0].name + ": " + d[0].value + '</div>';
+            //return '<div>' + d[0].name + ": " + d[0].value + '</div>';
+            return '<div>(' + d[0].x + ", " + d[0].value + ')</div>';
         }
         /*,format: {
             title: function (d) { return 'Data ' + d; },
             value: function (value, ratio, id) { return value + ' ' + ratio + ' ' + id; }
         }*/
     }
+    ,zoom: { enabled: true }
   });
   
   d3.select('#clear').on('click', onClearSelectionClicked);  

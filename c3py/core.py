@@ -86,8 +86,8 @@ def scatterplot(data, xkey, ykey, out, title=None, xlab='', ylab='', singlefile=
     markup = _read_file_as_string(_osj(thisdir, 'template-c3py.html'))\
             .replace('{{xlab}}', xlab)\
             .replace('{{ylab}}', ylab)\
-            .replace('{{xkey}}', xkey).replace('{{xkey}}', xkey)\
-            .replace('{{ykey}}', ykey).replace('{{ykey}}', ykey)\
+            .replace('{{xkey}}', xkey).replace('{{xkey}}', xkey).replace('{{xkey}}', xkey)\
+            .replace('{{ykey}}', ykey).replace('{{ykey}}', ykey).replace('{{ykey}}', ykey)\
             .replace('{{c3css}}', c3css)\
             .replace('{{jqueryjs}}', jqueryjs)\
             .replace('{{d3js}}', d3js)\
